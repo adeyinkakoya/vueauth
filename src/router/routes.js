@@ -25,7 +25,7 @@ export const routes = [{
         path: '/login',
         name: 'login',
         component: Login,
-        meta: { title: `${DOMAIN_TITLE} | Login` }
+        meta: { guestOnly: true, title: `${DOMAIN_TITLE} | Login` }
     },
     {
         path: '/about',
@@ -37,7 +37,7 @@ export const routes = [{
         path: '/register',
         name: 'register',
         component: Register,
-        meta: { title: `${DOMAIN_TITLE} | Register` }
+        meta: { guestOnly: true, title: `${DOMAIN_TITLE} | Register` }
     },
     {
         path: '/dashboard/secure',

@@ -11,8 +11,15 @@ export default {
         state.user = user
         state.isLoggedIn = true
     },
-    AUTH_ERROR: (state) => {
+    REG_SUCCESS: (state) => {
+        state.regSuccess = 'Registration was succesful'
+    },
+    REG_CLEAR: (state) => {
+        state.regSuccess = ''
+    },
+    AUTH_ERROR: (state, errors) => {
         state.status = 'error'
+        state.errors = errors
     },
     LOGOUT: (state) => {
         state.status = ''

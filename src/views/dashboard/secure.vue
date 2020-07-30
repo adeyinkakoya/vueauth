@@ -1,6 +1,6 @@
 <template>
   <div>
-      The Secure Page
+     Welcome to Secure Dashboard
   </div>
 </template>
 

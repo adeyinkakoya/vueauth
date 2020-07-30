@@ -2,5 +2,7 @@ export default {
     status: '',
     token: localStorage.getItem('token') || '',
     user: {},
-    //isLoggedIn: false
+    errors: [],
+    regSuccess: '',
+    isLoggedIn: false
 }

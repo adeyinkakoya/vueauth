@@ -1,17 +1,26 @@
 import axios from 'axios'
-import $store from '../store/'
+//import $store from '../store/'
 
-export const api = axios.create({
-    baseURL: "http://127.0.0.1:8000/api/"
-})
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
+let config = {
+    baseURL: "http://localhost:8000/api/",
+    //baseURL: process.env.baseURL || process.env.apiUrl || "",
+    timeout: 60 * 1000, // Timeout
+    withCredentials: true, // Check cross-site Access-Control
+};
+
+export const api = axios.create(config)
 
 const token = localStorage.getItem('token')
-api.defaults.headers.common['Authorization'] = token ? `Bearer ${token}` : ""; // Ternery operators if token is set means its not empty , set to "Bearer toekn value" else set to empty
+api.defaults.headers.common['Authorization'] = token ? `Bearer ${token}` : "";
+// For every request check if the token ia available and set it as Authorization header.
+// Ternery operators if token is set means its not empty , set to "Bearer toekn value" else set to empty
 
-//BAdd a request interceptor :before a request is sent
-axios.interceptors.request.use(
+api.interceptors.request.use(
     function(config) {
         // Do something before request is sent
+        NProgress.start()
         return config;
     },
     function(error) {
@@ -20,15 +29,18 @@ axios.interceptors.request.use(
     }
 );
 
-// Add a response interceptor after a request has been semt
-axios.interceptors.response.use(
+// Add a response interceptor
+api.interceptors.response.use(
     function(response) {
         // Do something with response data
+        NProgress.done()
         return response;
     },
     function(error) {
-        if (error.status === 401 && error.config && !error.config.__isRetryRequest) {
-            $store.dispatch("user/logoutUser")
-            return Promise.reject(error);
-        }
-    })
+        // if (error.status === 401 && error.config && !error.config.__isRetryRequest) {
+        //     $store.dispatch("user/logoutUser")
+
+        // }
+        return Promise.reject(error);
+    }
+);

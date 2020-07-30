@@ -1,4 +1,5 @@
 import $store from '../store'
+import $router from ''
 //import { mapGetters } from 'vuex'
 // import * as authService from '../services/auth.service'
 
@@ -35,5 +36,15 @@ export function setPageTitleMiddleware(to, from, next) {
     const pageTitle = to.matched.find(item => item.meta.title)
 
     if (pageTitle) window.document.title = pageTitle.meta.title
+    next()
+}
+
+export function redirectToDashboard(to, from, next) {
+    const guestonly = to.matched.some(item => item.meta.guestOnly)
+    const userId = $store.getters['user/currentUser'].id
+
+    if (guestonly && userId) {
+        return next({ name: 'secure' })
+    }
     next()
 }

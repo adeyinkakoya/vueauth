@@ -3,7 +3,14 @@
       <form class="login" @submit.prevent="login">
      <h1>Sign in</h1>
      <label>Email</label>
+
+     
      <input required v-model="user.email" type="email" placeholder="Name"/>
+      <span v-if="errors.email">
+          {{errors.email[0]}}
+      </span>
+      <br>
+      <br>
      <label>Password</label>
      <input required v-model="user.password" type="password" placeholder="Password"/>
      <hr/>
@@ -13,7 +20,7 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 export default {
     name:"Login",
     data() {
@@ -23,6 +30,9 @@ export default {
                password:''
            }
         }
+    },
+    computed: {
+        ...mapGetters('user',["errors"])
     },
     methods: {
             ...mapActions("user",["loginUser"]),
